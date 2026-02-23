@@ -3,85 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Calendar Scheduling App</title>
+  <title>Calendar Scheduling</title>
+
   <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #2563eb;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      background: var(--bg);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      margin: 0;
+      color: var(--text);
     }
+
     .container {
-      background: white;
-      border-radius: 10px;
-      padding: 20px;
-      width: 350px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      background: var(--card);
+      width: 360px;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
     }
+
     h2 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      font-weight: 600;
       text-align: center;
-      margin-bottom: 15px;
-      color: #333;
     }
+
+    .subtext {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
     .slots {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      gap: 12px;
     }
-    .slot {
-      background: #007bff;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      border-radius: 6px;
+
+    button.slot {
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 999px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: all 0.2s ease;
+      color: var(--text);
     }
-    .slot:hover {
-      background: #0056b3;
+
+    button.slot:hover {
+      background: #e0e7ff;
+      border-color: var(--accent);
     }
-    .booked {
-      background: #ccc;
-      color: #666;
+
+    button.slot.booked {
+      background: #e5e7eb;
+      color: #9ca3af;
+      border-color: #e5e7eb;
       cursor: not-allowed;
     }
+
     .message {
+      margin-top: 18px;
       text-align: center;
-      margin-top: 15px;
-      font-weight: bold;
-      color: #28a745;
+      font-size: 14px;
+      color: var(--accent);
+      min-height: 18px;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <h2>Book a Time Slot</h2>
+    <h2>Select a time</h2>
+    <p class="subtext">Available slots for today</p>
+
     <div class="slots">
-      <div class="slot">09:00 AM</div>
-      <div class="slot">10:00 AM</div>
-      <div class="slot">11:00 AM</div>
-      <div class="slot">01:00 PM</div>
-      <div class="slot">02:00 PM</div>
-      <div class="slot">03:00 PM</div>
+      <button class="slot" data-time="09:00 AM">09:00 AM</button>
+      <button class="slot" data-time="10:00 AM">10:00 AM</button>
+      <button class="slot" data-time="11:00 AM">11:00 AM</button>
+      <button class="slot" data-time="01:00 PM">01:00 PM</button>
+      <button class="slot" data-time="02:00 PM">02:00 PM</button>
+      <button class="slot" data-time="03:00 PM">03:00 PM</button>
     </div>
+
     <div class="message" id="message"></div>
   </div>
 
   <script>
     const slots = document.querySelectorAll('.slot');
     const message = document.getElementById('message');
+    let hasBooked = false;
 
     slots.forEach(slot => {
       slot.addEventListener('click', () => {
-        if (!slot.classList.contains('booked')) {
-          slot.classList.add('booked');
-          slot.textContent = 'Booked';
-          message.textContent = 'Slot booked successfully!';
-          setTimeout(() => { message.textContent = ''; }, 2000);
-        }
+        if (slot.classList.contains('booked') || hasBooked) return;
+
+        slot.classList.add('booked');
+        hasBooked = true;
+        message.textContent = `Booked for ${slot.dataset.time}`;
       });
     });
   </script>
