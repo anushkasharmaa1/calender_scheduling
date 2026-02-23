@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calendar Scheduling App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      width: 350px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      color: #333;
+    }
+    .slots {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .slot {
+      background: #007bff;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .slot:hover {
+      background: #0056b3;
+    }
+    .booked {
+      background: #ccc;
+      color: #666;
+      cursor: not-allowed;
+    }
+    .message {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #28a745;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Book a Time Slot</h2>
+    <div class="slots">
+      <div class="slot">09:00 AM</div>
+      <div class="slot">10:00 AM</div>
+      <div class="slot">11:00 AM</div>
+      <div class="slot">01:00 PM</div>
+      <div class="slot">02:00 PM</div>
+      <div class="slot">03:00 PM</div>
+    </div>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    const slots = document.querySelectorAll('.slot');
+    const message = document.getElementById('message');
+
+    slots.forEach(slot => {
+      slot.addEventListener('click', () => {
+        if (!slot.classList.contains('booked')) {
+          slot.classList.add('booked');
+          slot.textContent = 'Booked';
+          message.textContent = 'Slot booked successfully!';
+          setTimeout(() => { message.textContent = ''; }, 2000);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
